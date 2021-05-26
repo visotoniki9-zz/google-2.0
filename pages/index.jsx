@@ -1,12 +1,27 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-unescaped-entities */
 import Head from 'next/head';
 import { ViewGridIcon, MicrophoneIcon } from '@heroicons/react/solid/';
 import { SearchIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
+import { useRef } from 'react';
+import { useRouter } from 'next/router';
 import Avatar from '../components/Avatar';
 import Footer from '../components/Footer';
 
 export default function Home() {
+  const router = useRouter();
+  const searchInputRef = useRef(null);
+
+  const search = (e) => {
+    e.preventDefault();
+    const term = searchInputRef.current.value;
+
+    if (!term) return null;
+
+    router.push(`/search?term=${term}`);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Head>
@@ -33,7 +48,10 @@ export default function Home() {
       </header>
 
       {/* Body */}
-      <form className="flex flex-col items-center mt-44 flex-grow w-4/5">
+      <form
+        className="flex flex-col items-center mt-44 flex-grow w-4/5"
+        onSubmit={search}
+      >
         {/* Google Logo */}
         <Image
           src="/google.svg"
@@ -46,16 +64,20 @@ export default function Home() {
         >
           <SearchIcon className="h-5 mr-3 text-gray-500 rounded-full hover:bg-gray-100 cursor-pointer" />
 
-          <input type="text" className="focus:outline-none flex-grow" />
+          <input
+            type="text"
+            className="focus:outline-none flex-grow"
+            ref={searchInputRef}
+          />
 
           <MicrophoneIcon className="h-5 text-gray-700 rounded-full hover:bg-gray-100 cursor-pointer" />
         </div>
 
         <div className="flex flex-col w-1/2 space-y-2 justify-center mt-8 sm:space-y-0 sm:flex-row sm:space-x-4">
-          <button type="button" className="btn">
+          <button onClick={search} type="button" className="btn">
             Google Search
           </button>
-          <button type="button" className="btn">
+          <button onClick={search} type="button" className="btn">
             I'm feeling Lucky
           </button>
         </div>
