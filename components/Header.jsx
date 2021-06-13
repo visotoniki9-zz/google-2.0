@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import Avatar from './Avatar';
+import HeaderOptions from './HeaderOptions';
 
 function Header() {
   const router = useRouter();
@@ -63,6 +64,8 @@ function Header() {
           url="/user.jpeg"
         />
       </div>
+      {/* Header options */}
+      <HeaderOptions />
     </header>
   );
 }
