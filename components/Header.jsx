@@ -16,7 +16,7 @@ function Header() {
 
     if (!term) return;
 
-    router.push(`/search=${term}`);
+    router.push(`/search?term=${term}`);
   };
   return (
     <header

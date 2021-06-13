@@ -20,14 +20,14 @@ function SearchResults({ results }) {
           key={result.link}
           className="max-w-xl mb-8"
         >
-          <div>
+          <div className="group">
             {/* Url */}
             <a href={result.link} className="text-sml truncate text-sm">
               {result.formattedUrl}
             </a>
             {/* Title */}
             <a href={result.link}>
-              <h2 className="truncate text-xl text-blue-800 font-medium">{result.title}</h2>
+              <h2 className="truncate text-xl text-blue-800 font-medium group-hover:underline">{result.title}</h2>
             </a>
           </div>
           {/* Snippet */}
