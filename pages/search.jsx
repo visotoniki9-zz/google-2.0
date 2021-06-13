@@ -1,18 +1,24 @@
 import Head from 'next/head';
 import cache from 'memory-cache';
+import { useRouter } from 'next/router';
 import Header from '../components/Header';
+import SearchResults from '../components/SearchResults';
 
 const { GOOGLE_API_KEY, GOOGLE_CONTEXT_KEY } = process.env;
 
 function Search({ results }) {
+  const router = useRouter();
   return (
     <div>
       <Head>
-        <title>Search</title>
+        <title>
+          {router.query.term}
+          {' '}
+          - Google Search
+        </title>
       </Head>
-      {/* Header  */}
       <Header />
-      {/* Search results */}
+      <SearchResults results={results} />
     </div>
   );
 }
@@ -20,12 +26,12 @@ function Search({ results }) {
 export default Search;
 
 export async function getServerSideProps(context) {
-  const reqUrl = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CONTEXT_KEY}&q=${context.query.term}`;
+  const startIndex = context.query.start || '0';
+  const reqUrl = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CONTEXT_KEY}&q=${context.query.term}&start=${startIndex}`;
 
   const cachedResponse = cache.get(reqUrl);
 
   if (cachedResponse) {
-    console.log('Loaded from cache');
     return {
       props: {
         results: cachedResponse,
@@ -33,7 +39,6 @@ export async function getServerSideProps(context) {
     };
   }
 
-  console.log('Not found in cache');
   const response = await fetch(reqUrl);
   const data = await response.json();
   const hours = 24;
