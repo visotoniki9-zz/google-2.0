@@ -31,7 +31,7 @@ function SearchResults({ results }) {
             </a>
           </div>
           {/* Snippet */}
-          <p className="text-gray-700">{result.snippet}</p>
+          <p className="text-gray-700 line-clamp-2">{result.snippet}</p>
         </div>
       ))}
     </div>
